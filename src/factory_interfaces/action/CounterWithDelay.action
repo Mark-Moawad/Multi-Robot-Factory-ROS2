@@ -1,0 +1,6 @@
+# Count with delay action.
+uint32 num_counts                # Number of counts to count up to
+---
+string result_message            # Result string
+---
+uint32 counts_elapsed            # Feedback: counts elapsed

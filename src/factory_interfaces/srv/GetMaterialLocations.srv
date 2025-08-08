@@ -1,0 +1,4 @@
+# Query storage locations for a particular material type.
+string material_type
+---
+StorageUnit[] storage_units

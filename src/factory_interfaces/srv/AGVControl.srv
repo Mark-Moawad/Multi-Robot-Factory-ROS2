@@ -1,0 +1,4 @@
+# Control an AGV to dispatch a kit type.
+string kit_type
+---
+bool success

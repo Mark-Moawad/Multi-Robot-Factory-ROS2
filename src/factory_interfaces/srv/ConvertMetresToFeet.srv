@@ -1,0 +1,5 @@
+# Convert distance in metres to feet.
+float64 distance_metres
+---
+float64 distance_feet
+bool success

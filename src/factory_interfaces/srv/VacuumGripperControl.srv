@@ -1,0 +1,4 @@
+# Enable or disable vacuum gripper suction.
+bool enable
+---
+bool success
