@@ -6,10 +6,73 @@
 
   <!-- Includes -->
   <xacro:include filename="$(find-pkg-share factory_description)/xacro/workcell/workcell.urdf.xacro"/>
-  <!-- TODO: include pedestal, gripper, sensors, bin files when added -->
+  <xacro:include filename="$(find-pkg-share factory_description)/xacro/pedestal/pedestal.urdf.xacro"/>
+  <xacro:include filename="$(find-pkg-share factory_description)/xacro/gripper/vacuum_gripper.urdf.xacro"/>
+  <xacro:include filename="$(find-pkg-share factory_description)/xacro/bin/bin.urdf.xacro"/>
+  <xacro:include filename="$(find-pkg-share factory_description)/xacro/sensors/logical_camera.urdf.xacro"/>
+  <xacro:include filename="$(find-pkg-share factory_description)/xacro/sensors/break_beam.urdf.xacro"/>
+  <!-- External UR description macros -->
+  <xacro:include filename="$(find ur_description)/urdf/ur10.urdf.xacro"/>
+  <xacro:include filename="$(find ur_description)/urdf/ur5.urdf.xacro"/>
 
-  <!-- Invoke macros -->
-  <xacro:workcell parent="factory_world_interface"/>
+  <!-- Base world interface -->
+  <link name="world"/>
+  <xacro:workcell parent="world"/>
 
-  <!-- Placeholder additional components will be added here -->
+  <!-- Robot1 pedestal and robot -->
+  <xacro:pedestal prefix="robot1_" parent="workcell" height="0.95">
+    <origin xyz="0.5 1.8 0"/>
+  </xacro:pedestal>
+  <xacro:ur10_robot prefix="robot1_" joint_limited="true"/>
+  <joint name="robot1_to_pedestal" type="fixed">
+    <parent link="workcell"/>
+    <child link="robot1_base_link"/>
+    <origin xyz="0.5 1.8 0.95"/>
+  </joint>
+  <xacro:vacuum_gripper prefix="vacuum_gripper1_" joint_prefix="vacuum_gripper1_joint"/>
+  <joint name="gripper1_to_robot1" type="fixed">
+    <parent link="robot1_tool0"/>
+    <child link="vacuum_gripper1_base_link"/>
+  </joint>
+
+  <!-- Robot2 (conditional) -->
+  <xacro:if value="$(arg with_robot2)">
+    <xacro:pedestal prefix="robot2_" parent="workcell" height="0.7">
+      <origin xyz="-7.8 -1.5 0"/>
+    </xacro:pedestal>
+    <xacro:ur5_robot prefix="robot2_" joint_limited="true"/>
+    <joint name="robot2_to_pedestal" type="fixed">
+      <parent link="workcell"/>
+      <child link="robot2_base_link"/>
+      <origin xyz="-7.8 -1.5 0.7" rpy="0 0 1.57"/>
+    </joint>
+    <xacro:vacuum_gripper prefix="vacuum_gripper2_" joint_prefix="vacuum_gripper2_joint"/>
+    <joint name="gripper2_to_robot2" type="fixed">
+      <parent link="robot2_tool0"/>
+      <child link="vacuum_gripper2_base_link"/>
+    </joint>
+  </xacro:if>
+
+  <!-- Bin -->
+  <xacro:bin prefix="bin_1_"/>
+  <joint name="bin_1_joint" type="fixed">
+    <parent link="workcell"/>
+    <child link="bin_1_base_link"/>
+    <origin xyz="-8.0 -2.2 0"/>
+  </joint>
+
+  <!-- Sensors (conditional) -->
+  <xacro:if value="$(arg with_sensors)">
+    <xacro:logical_camera prefix="logical_camera1_" parent="workcell">
+      <origin xyz="1.2 1.8 2.0" rpy="0 1.5708 0"/>
+    </xacro:logical_camera>
+    <xacro:logical_camera prefix="logical_camera2_" parent="workcell">
+      <origin xyz="-8.3 -1.23 1.8" rpy="0 1.5708 0"/>
+    </xacro:logical_camera>
+    <xacro:break_beam prefix="break_beam_"/>
+    <joint name="break_beam_joint" type="fixed">
+      <parent link="workcell"/>
+      <child link="break_beam_world_interface"/>
+    </joint>
+  </xacro:if>
 </robot>
