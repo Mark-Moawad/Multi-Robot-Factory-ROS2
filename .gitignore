@@ -1,0 +1,28 @@
+# Colcon / ROS2 build artifacts
+build/
+install/
+log/
+
+# Python
+__pycache__/
+*.pyc
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+
+# CMake / Generated
+CMakeCache.txt
+CMakeFiles/
+*.bak
+
+# Colcon test result caches
+*.gcda
+*.gcno
+
+# Package-specific temp
+*/generated/
+
+# Colcon metadata
+colcon.meta
