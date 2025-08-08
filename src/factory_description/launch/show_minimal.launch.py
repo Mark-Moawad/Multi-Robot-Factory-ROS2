@@ -7,8 +7,8 @@ import xacro
 
 def generate_launch_description():
     pkg_share = get_package_share_directory('factory_description')
-    xacro_file = os.path.join(pkg_share, 'urdf', 'factory_minimal.urdf.xacro')
-    doc = xacro.process_file(xacro_file)
+    assembly_xacro = os.path.join(pkg_share, 'xacro', 'assemblies', 'factory_workcell.xacro')
+    doc = xacro.process_file(assembly_xacro, mappings={'with_robot2': 'false', 'with_sensors': 'false'})
     robot_desc = doc.toprettyxml(indent='  ')
 
     return LaunchDescription([

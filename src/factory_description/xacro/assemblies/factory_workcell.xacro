@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<robot name="factory_workcell" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- Arguments -->
+  <xacro:arg name="with_robot2" default="true"/>
+  <xacro:arg name="with_sensors" default="true"/>
+
+  <!-- Includes -->
+  <xacro:include filename="$(find-pkg-share factory_description)/xacro/workcell/workcell.urdf.xacro"/>
+  <!-- TODO: include pedestal, gripper, sensors, bin files when added -->
+
+  <!-- Invoke macros -->
+  <xacro:workcell parent="factory_world_interface"/>
+
+  <!-- Placeholder additional components will be added here -->
+</robot>
